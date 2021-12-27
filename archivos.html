@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="J. D. Gambín">
+	<title>Archivos</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="pad">
+	<hr>
+	<a href="https://jdgambin.github.io">Página principal</a>
+	<br>
+	<h2>Archivos</h2>
+	<center>
+	<img src="imgs/file.gif">
+	</center>
+	<h3>Documentos</h3>
+	<ul>
+	<li>
+	<code>
+	<a href="arc/ilustraciones-del-tao.txt">ilustraciones-del-tao.txt</a>
+	</code>
+	<blockquote>
+	<p>
+	Transcripción del apéndice de <i>La abolición del hombre</i> de C. S.
+	Lewis.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<code>
+	<a href="arc/tecnicas-de-productividad.txt">
+	tecnicas-de-productividad.txt</a>
+	</code>
+	<blockquote>
+	<p>
+	Resumen de las prácticas básicas de eficiencia y productividad en
+	materias creativas: El «procesamiento por lotes» de actividades, la
+	adaptación al aburrimiento y el ejercicio de la capacidad del
+	sostenimiento prolongado e intenso de la concentración para el
+	cumplimiento de un solo objetivo bien definido. Estos son los únicos
+	«tips» meramente prácticos que cualquier persona podría llegar a
+	necesitar para exprimir todo el jugo de sus capacidades cognitivas. No
+	es necesario leer largos libros sobre «cómo ser productivo» cuando
+	son comprendidos estos principios. El resto del asunto general de la
+	productividad atiende a cuestiones morales
+	<a href="citas#moral1">[1]</a>
+	<a href="citas#moral2">[2]</a>.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<code>
+	<a href="arc/autores-biblioteca.txt">autores-biblioteca.txt</a>
+	</code>
+	<blockquote>
+	<p>
+	Lista ordenada de los autores de los libros de mi biblioteca.
+	</p>
+	</blockquote>
+	</li>
+	</ul>
+	<a id="viejosoftware"></a>
+	<h3>Viejo software (2013-2017)</h3>
+	<p>
+	Una muestra de pequeños programas que escribí hace tiempo, cortesía de
+	una olvidada <a href="https://pastebin.com/u/hikariscode">cuenta</a> de
+	Pastebin.
+	</p>
+	<ul>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/spw.sh">
+	spw</a> (POSIX Shell, 2016-2017)<br>
+	<blockquote>
+	<p>
+	Este script es un wrapper para pacman, el gestor de paquetes de
+	ArchLinux y otras distribuciones, su función es instalar y desinstalar
+	paquetes, y a su vez guardar en archivos de texto separados (uno donde
+	registra los paquetes que instala y otro para los que desinstala)
+	los nombres de estos paquetes tal cual son dados por el usuario como
+	argumentos en la línea de comandos. Las variaciones del comando
+	«<code>pacman -Q*</code>» dan listas «imprecisas» de paquetes instalados
+	explícitamente (los paquetes miembros de un grupo son listados de forma
+	independiente con ausencia del propio nombre del grupo de paquetes; y
+	también se listan los paquetes base). Encuentro más cómodo registrar de
+	manera simple mis paquetes personales yo mismo, esto también facilita la
+	instalación de estos paquetes en el futuro con el comando
+	«<code>spw -i $(cat paquetes.txt | tr '\n' ' ')</code>» que puedo
+	ejecutar en un nuevo sistema usando una lista de paquetes de <i>spw</i>
+	(en el ejemplo, «<code>paquetes.txt</code>»). Las rutas de los archivos
+	de texto donde se guardan los nombres de cada paquete son definidas en
+	el mismo código fuente del script por medio de las variables
+	<code>ilog</code> y <code>ulog</code> en las líneas 4 y 7
+	respectivamente. Para más información (no mucha) <code>spw -h</code>.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/acm.sh">
+	acm</a> (POSIX Shell, 2016)
+	<blockquote>
+	<p>
+	Este fue un pequeño experimento. El script recibe como entrada un
+	«archivo de configuración» y el nombre de un comando del sistema.
+	El archivo de configuración se compone de dos áreas, que se dividen por
+	una línea que contiene exclusivamente la cadena «args:». El área 2
+	(el área de argumentos) es cada una de las líneas bajo «args:», las
+	cuales son interpretadas como argumentos para el comando del sistema que
+	se da como parte de la entrada del propio script, más precisamente, para
+	<i>acm</i> cada línea del área 2 son argumentos para distintas
+	iteraciones de ejecución de dicho comando (sean <code>L1, ... , LN</code>
+	todas las <code>N</code> líneas del área 2, entonces <i>acm</i> ejecuta
+	la secuencia «<code>comando L1; comando L2; ... comando LN</code>»).
+	Por otra parte, el área 1 (área de variables) es todas las líneas que
+	hay antes del divisor «args:», en estas líneas hay variables definidas
+	de la forma «identificador=valor» que se invocan en el área de
+	argumentos (el área 2) de la forma «$identificador», igual que las
+	variables de la shell. Este identificador se remplaza por el valor
+	de la variable cuando se ejecuta el script. En conclusión, <i>acm</i>
+	ejecuta un comando cualquiera de manera iterada, alimentando una a una
+	por cada iteración las líneas de argumentos provistas en el área 2
+	del archivo de configuración. Sé que no se entendió, mostraré
+	unos ejemplos.
+	</p>
+	<p>
+	Primero debemos preparar el archivo de configuración:
+<pre style="border: 1px solid darkblue; padding: 5px">
+# Este es el archivo de configuración "conf.acm"
+# (y estos son comentarios que acm ignora).
+var=valor
+nombre=arg1
+args:
+arg0 $nombre
+arg2
+arg3
+arg4-tengo-$var\n
+</pre>
+	ahora probemos ejecutar <i>acm</i> alimentando varios comandos del
+	sistema y veamos su salida:
+<pre style="border: 1px solid darkgreen; padding: 5px">
+$ acm conf.acm echo
+arg0 arg1
+arg2
+arg3
+arg4-tengo-valor\n
+$ acm conf.acm printf
+arg0arg1arg2arg3arg4-tengo-valor
+$ ls
+conf.acm
+$ acm conf.acm touch
+$ ls
+arg0 arg1 arg2 arg3 'arg4-tengo-valor\n' conf.acm
+</pre>
+	El siguiente es un ejemplo de como usaba <i>acm</i> para hacer copias de
+	respaldo de archivos específicos de mi sistema, aquí muestro el
+	contenido de mi archivo <code>copy.acm</code>:
+<pre style="border: 1px solid darkblue; padding: 5px">
+dest=/storage/backup/configs
+
+args:
+
+-r /home/jdg/.config/zathura/        $dest/dotconfig
+-r /home/jdg/.config/termite/        $dest/dotconfig
+-r /home/jdg/.config/qutebrowser/    $dest/dotconfig
+
+/home/jdg/.stumpwmrc                 $dest
+/home/jdg/.vimrc                     $dest
+/home/jdg/.tmux.conf                 $dest
+/home/jdg/.packages                  $dest
+/home/jdg/.oldpackages               $dest
+/home/jdg/.zshrc                     $dest
+/home/jdg/.zprofile                  $dest
+/home/jdg/.xmodmap                   $dest
+/home/jdg/.jdg-aliases               $dest
+/home/jdg/.xinitrc                   $dest
+
+/storage/stuff/pwdbs/database.kdb    $dest
+/etc/hosts                           $dest
+</pre>
+	Para ejecutarlo usaba «<code>acm copy.acm cp -v</code>». ¡Y me servía
+	muy bien! :)
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/text2leet-fuzzer.sh">
+	text2leet-fuzzer</a> (Bash, mayo 2014)
+	<blockquote>
+	<p>
+	Este fue un insignificante «fuzzer» que hice para probar un programa en
+	C que había escrito para traducir del ASCII al lenguaje «l33t», este
+	programa <i>text2leet</i> no sobrevivió a mi falta de aprecio por los
+	«pequeños documentos históricos personales».
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/gyts.sh">
+	gyts</a> (Bash, mayo 2014)
+	<blockquote>
+	<p>
+	Obtener los enlaces de las imagenes miniatura para un video de
+	YouTube cualquiera.
+<pre style="border: 1px solid darkgreen; padding: 5px">
+$ gyts -a -u https://www.youtube.com/watch?v=JH3T6YwwU9s
+http://img.youtube.com/vi/JH3T6YwwU9s/0.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/1.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/2.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/3.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/default.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/hqdefault.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/mqdefault.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/sddefault.jpg
+http://img.youtube.com/vi/JH3T6YwwU9s/maxresdefault.jpg
+</pre>
+	Para ver todas las opciones ejecutar  «<code>gyts -h</code>».
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/slideshared.sh">
+	slideshared</a> (Bash, feb. 2014)
+	<blockquote>
+	<p>
+	Descargar y convertir publicaciones de <i>slideshare.net</i>, la
+	conversión a PDF de esta versión (había hecho una mejor versión de este
+	script que perdí) es muy ineficiente y no sé si el script todavía
+	funcione.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/lscustomizer.bat">
+	lscustomizer</a> (Batch, ene. 2014)
+	<blockquote>
+	<p>
+	Un script Batch para Windows 7 que remplaza la imagen de fondo de la
+	pantalla de inicio de sesión.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/geeksscript-kiddie-question-1.sh">
+	geeksscript-kiddie-question-1</a> (Bash, ene. 2014)
+	<blockquote>
+	<p>
+	Un script para un concurso de una página india de Facebook (en ese
+	tiempo aún tenía página de Facebook) en el que participé cuando
+	comenzaba a programar scripts de Bash, gané el concurso pero no sé si
+	participó otra persona a parte de mi (el premio era un bono canjeable en
+	tiendas indias).
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/zexploiter-1.0.sh">
+	zexploiter 1.0</a> (Bash, ene. 2014)
+	<blockquote>
+	<p>
+	Esta es una interesante historia que redactaré después.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/trinity-hacks-neo.sh">
+	trinity-hacks-neo</a> (Bash, dic. 2013)
+	<blockquote>
+	<p>
+	Mi intento de replicar los mensajes que Trinity muestra a Neo en la
+	pantalla de su computadora al inicio de <i>The Matrix</i>.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/sysfail.cc">
+	sysfail</a> (C++, dic. 2013)
+	<blockquote>
+	<p>
+	Para entenderlo hay que verlo, crearé un GIF después.
+	</p>
+	</blockquote>
+	</li>
+	<li>
+	<a href="https://raw.githubusercontent.com/jdgambin/scripts/master/2013-2017/zexploiter-1.0.sh">
+	zexploiter 0.01</a> (Bash, dic. 2013)
+	<blockquote>
+	<p>
+	Como he dicho sobre <i>zexploiter 1.0</i>.
+	</p>
+	</blockquote>
+	</li>
+	</ul>
+	<br>
+	<hr>
+	<center><small>© 2021 Jesús Gambín</small></center>
+	</div>
+	</body>
+</html>
